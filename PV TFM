@@ -75,8 +75,8 @@ length(Uepi_DSn14$id)
 sum(Uepi_DSn14$numinj)
 
 
-'EDA'
-'gen'
+'4.1 - EDA dels jugadors'
+
 mean(Uepi_DSn14$Edat.Final.Temporada)
 sd((Uepi_DSn14$Edat.Final.Temporada))
 mean(Uepi_DSn14$Talla, na.rm = TRUE)
@@ -101,7 +101,8 @@ table(Uepi_DSn14$Equip,Uepi_DSn14$jugador_cantera)
 ddply(subset(Uepi_DSn14,Equip=="1r Equip"), "Posició.al.camp",summarise,N=length(id),pct=(length(id)/90)*100, Emean=mean(Edat.Final.Temporada), ESD=sd(Edat.Final.Temporada),Tmean=mean(Talla,na.rm=TRUE), TSD=sd(Talla,na.rm=TRUE),Pmean=mean(Pes,na.rm=TRUE), PSD=sd(Pes,na.rm=TRUE),Bmean=mean(bmi,na.rm=TRUE), BSD=sd(bmi,na.rm=TRUE))
 
 
-'les'
+'4.3 - EDA lesions'
+
 ddply(Uepi_DSn14, "Temporada",summarise,N=sum(numinj))
 ddply(les_DSn14, "natbody",summarise,N=length(id),pct=(length(id)/666)*100)
 ddply(les_DSn14, "Natureinj",summarise,N=length(id),pct=(length(id)/666)*100)
@@ -118,7 +119,8 @@ total1
 total2 <- pois.exact(sum(Uepi_DSn17$numinj),sum(Uepi_DSn17$Total_exposure_Hores.temporada),conf.level = 0.95)
 total2
 
-'taula de Prop CI per posició'
+'4.4 - Incidències en totes les lesions'
+
 pos1<- ddply(Uepi_DSn14, "Posició.al.camp",summarise,N=sum(numinj),AE=length(id))
 pos1tab <- pois.exact(pos1$N,pos1$AE,conf.level = 0.95)
 row.names(pos1tab)<-pos1$Posició.al.camp
@@ -139,7 +141,6 @@ row.names(pos1ctab)<-pos1c$Posició.al.camp
 colnames(pos1ctab) <- c("num lesions", "Jugadors Exposats","Incidència","CI 95% inf", "CI 95% sup")
 pos1ctab <- pos1ctab[,-6]
 pos1ctab
-
 
 pos2<- ddply(Uepi_DSn17, "Posició.al.camp",summarise,N=sum(numinj),AE=sum(Total_exposure_Hores.temporada))
 pos2tab <- pois.exact(pos2$N,pos2$AE,conf.level = 0.95)
@@ -162,10 +163,6 @@ colnames(pos2ctab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95
 pos2ctab <- pos2ctab[,-6]
 pos2ctab
 
-
-
-
-'taula de prop IC per categoria'
 cat1<- ddply(Uepi_DSn14, "Categoria",summarise,N=sum(numinj),AE=length(id))
 cat1tab <- pois.exact(cat1$N,cat1$AE,conf.level = 0.95)
 row.names(cat1tab)<-cat1$Categoria
@@ -179,7 +176,6 @@ row.names(cat2tab)<-cat2$Youth.Professional
 colnames(cat2tab) <- c("num lesions", "Jugadors Exposats","Incidència","CI 95% inf", "CI 95% sup")
 cat2tab <- cat2tab[,-6]
 cat2tab
-
 
 cat1b<- ddply(Uepi_DSn17, "Categoria",summarise,N=sum(numinj),AE=sum(Total_exposure_Hores.temporada))
 cat1btab <- pois.exact(cat1b$N,cat1b$AE,conf.level = 0.95)
@@ -195,7 +191,6 @@ colnames(cat2btab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95
 cat2btab <- cat2btab[,-6]
 cat2btab
 
-'taula de prop IC per temporada'
 tem1<- ddply(Uepi_DSn14, "Temporada",summarise,N=sum(numinj),AE=length(id))
 tem1tab <- pois.exact(tem1$N,tem1$AE,conf.level = 0.95)
 row.names(tem1tab)<-tem1$Temporada
@@ -210,7 +205,6 @@ colnames(tem2tab) <- c("num lesions", "Jugadors Exposats","Incidència","CI 95% 
 tem2tab <- tem2tab[,-6]
 tem2tab
 
-'taula i gràfic de prop IC grup edat'
 Uepi_DSn14$ageG<-ifelse(Uepi_DSn14$Edat.Final.Temporada<15,"0-14",
                 ifelse(Uepi_DSn14$Edat.Final.Temporada>14 & Uepi_DSn14$Edat.Final.Temporada<20, "15-19",
                 ifelse(Uepi_DSn14$Edat.Final.Temporada>19 & Uepi_DSn14$Edat.Final.Temporada<25,"20-24",
@@ -237,8 +231,6 @@ colnames(age3tab) <- c("num lesions", "Jugadors Exposats","Incidència","CI 95% 
 age3tab <- age3tab[,-6]
 age3tab
 
-
-
 Uepi_DSn17$ageG<-ifelse(Uepi_DSn17$Edat.Final.Temporada<15,"0-14",
                  ifelse(Uepi_DSn17$Edat.Final.Temporada>14 & Uepi_DSn17$Edat.Final.Temporada<20, "15-19",
                  ifelse(Uepi_DSn17$Edat.Final.Temporada>19 & Uepi_DSn17$Edat.Final.Temporada<25,"20-24",
@@ -248,7 +240,6 @@ Uepi_DSn17$ageG<-ifelse(Uepi_DSn17$Edat.Final.Temporada<15,"0-14",
 Uepi_DSn17$ageG2<-ifelse(Uepi_DSn17$Edat.Final.Temporada<28,"0-27",
                   ifelse(Uepi_DSn17$Edat.Final.Temporada>27 & Uepi_DSn17$Edat.Final.Temporada<31, "28-30",
                   ifelse(Uepi_DSn17$Edat.Final.Temporada>30,"31-","NA")))
-
 
 age1b<- ddply(Uepi_DSn17, "ageG",summarise,N=sum(numinj),AE=sum(Total_exposure_Hores.temporada))
 age1btab <- pois.exact(age1b$N,age1b$AE,conf.level = 0.95)
@@ -264,13 +255,10 @@ colnames(age3btab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95
 age3btab <- age3btab[,-6]
 age3btab
 
-'match/train'
-
 ment <- ddply(Uepi_DSn17, "Youth.Professional",summarise,ENT=sum(Hores.entrenos),MATCH=sum(Hores.partits))
 ment
 ment2 <- rbind(sum(Uepi_DSn17$Hores.entrenos),sum(Uepi_DSn17$Hores.partits))
 ment2
-
   
 ent1<- ddply(subset(les_DSn17,matchtrain=="0"), "Youth.Professional",summarise,N=length(id),AE=sum(Hores.entrenos))
 ent1tab <- pois.exact(ent1$N,ment$ENT, conf.level = 0.95)
@@ -293,14 +281,13 @@ colnames(ment3tab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95
 ment3tab <- ment3tab[,-6]
 ment3tab
 
-'Taula lesion type'
-'total'
+
+'4.5 - Incidències en Lesió Muscular a la Cuixa'
+
 les_DSn14$lesgrup <- ifelse(les_DSn14$bodynat=="Thigh   Muscle","Thigh Muscle","Other")
 les_DSn17$lesgrup <- ifelse(les_DSn17$bodynat=="Thigh   Muscle","Thigh Muscle","Other")
-
 pois.exact(197,466,conf.level = 0.95)
 pois.exact(138,78566.18,conf.level = 0.95)
-
 
 lesty1 <- ddply(subset(les_DSn14, lesgrup == "Thigh Muscle"), "Youth.Professional",summarise,Inj=length(id))
 lesty1tab <- pois.exact(lesty1$Inj,cat2$AE,conf.level = 0.95)
@@ -329,8 +316,6 @@ row.names(lesty4tab) <- lesty4$Posició.al.camp
 lesty4tab <- lesty4tab[,-6]
 colnames(lesty4tab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95% inf", "CI 95% sup")
 lesty4tab
-
-
 
 les_DSn14$ageG<-ifelse(les_DSn14$Edat.Final.Temporada<15,"0-14",
                 ifelse(les_DSn14$Edat.Final.Temporada>14 & les_DSn14$Edat.Final.Temporada<20, "15-19",
@@ -367,9 +352,6 @@ lesty6tab <- lesty6tab[,-6]
 colnames(lesty6tab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95% inf", "CI 95% sup")
 lesty6tab
 
-
-
-'PRO'
 lesty3b <- ddply(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1), "Posició.al.camp",summarise,Inj=length(id))
 lesty3btab <- pois.exact(lesty3b$Inj,pos1b$AE,conf.level = 0.95)
 row.names(lesty3btab) <- lesty3b$Posició.al.camp
@@ -398,9 +380,6 @@ lesty6btab <- lesty6btab[,-6]
 colnames(lesty6btab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95% inf", "CI 95% sup")
 lesty6btab
 
-
-'Taula les vs Partit/Entreno'
-'total'
 mat0 <- ddply(subset(les_DSn14, lesgrup == "Thigh Muscle"),"matchtrain",summarise,Inj=length(id),AE=466)
 mat0tab <- pois.exact(mat0$Inj,mat0$AE,conf.level = 0.95)
 row.names(mat0tab) <- mat0$matchtrain 
@@ -416,14 +395,12 @@ mat0btab <- mat0btab[,-6]
 colnames(mat0btab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95% inf", "CI 95% sup")
 mat0btab
 
-'Pro'
 mat1 <- ddply(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1),"matchtrain",summarise,Inj=length(id),AE=90)
 mat1tab <- pois.exact(mat1$Inj,mat1$AE,conf.level = 0.95)
 row.names(mat1tab) <- mat1$matchtrain 
 mat1tab <- mat1tab[,-6]
 colnames(mat1tab) <- c("num lesions", "Jugadors Exposats","Incidència","CI 95% inf", "CI 95% sup")
 mat1tab
-
 mentm= c(22274.00, 2310.00)
 mat2 <- ddply(subset(les_DSn17, lesgrup == "Thigh Muscle" & Youth.Professional == 1),"matchtrain",summarise,Inj=length(id))
 mat2tab <- pois.exact(mat2$Inj,mentm,conf.level = 0.95)
@@ -432,9 +409,7 @@ mat2tab <- mat2tab[,-6]
 colnames(mat2tab) <- c("num lesions", "Hores d'Exposició","Incidència","CI 95% inf", "CI 95% sup")
 mat2tab
 
-
-
-"TL"
+"4.5 TIME-LOSS - Professionals i lesió múscular a la cuixa"
 les_DSn14$TL <- ifelse(les_DSn14$days2recov==0 | les_DSn14$days2recov=="","No","Yes")
 les_DSn17$TL <- ifelse(les_DSn17$days2recov==0 | les_DSn17$days2recov=="","No","Yes")
 les_DSn14$lesmom <- ifelse(les_DSn14$Mes.de.la.temporada<3.66,"1r terç",
@@ -480,9 +455,6 @@ nrow(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1 & Pos
 nrow(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1 & Posició.al.camp == "Tanca"))
 nrow(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1 & Posició.al.camp == "Tanca"))/94
 
-
-
-'test'
 levene.test(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1)$days2recov, subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1)$ageG2)
 kruskal.test(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1)$days2recov~subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1)$ageG2)
 kruskal.test(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1)$TL~subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1)$ageG2)
@@ -504,13 +476,14 @@ cohensD(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1 & 
 cohensD(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1 & Posició.al.camp=="Pivot")$days2recov,subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1 & Posició.al.camp=="Tanca")$days2recov)
 cohensD(subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1 & Posició.al.camp=="Porter")$days2recov,subset(les_DSn14, lesgrup == "Thigh Muscle" & Youth.Professional == 1 & Posició.al.camp=="Tanca")$days2recov)
 
-'Clustering'
+
+'4.3 - CLUSTERING'
 set.seed(2023)
 pro_DSn14 <- subset(Uepi_DSn14, Uepi_DSn14$Youth.Professional==1)
 y_DSn14 <- subset(Uepi_DSn14, Uepi_DSn14$Youth.Professional==0)
 pro_DSn14$ageG <- as.factor(pro_DSn14$ageG)
 
-'CLUSTERING 1 - BMI'
+'CLUSTERING 1 - BMI, edat, origen i posició'
 pro_DSn14$bmi <- (pro_DSn14$Pes/((pro_DSn14$Talla/100)^2))
 catpro2 <- subset(pro_DSn14, select=c("Posició.al.camp","jugador_cantera"))
 catpro2[] <- lapply(catpro2, factor)
@@ -530,7 +503,7 @@ pro_DSn14$clus2_3 <- as.factor(kamPro2_3$finalMemb)
 pro_DSn14$clus2_2 <- as.factor(kamPro2_2$finalMemb)
 pro_DSn14$clus2_4 <- as.factor(kamPro2_4$finalMemb)
 
-'kampro2_2 graph'
+'CLUSTERING 1 - 2 GROUPS'
 grid.arrange(ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus2_2), y=Edat.Final.Temporada,fill=factor(clus2_2)))+xlab("Clúster")+ylab("Edat")+theme(legend.position="none"),
 ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus2_2), y=bmi,fill=factor(clus2_2)))+xlab("Clúster")+ylab("BMI")+theme(legend.position="none"),
 ggplot(data = pro_DSn14) + geom_mosaic(aes(x=product(jugador_cantera,clus2_2), fill=jugador_cantera))+xlab("Clúster")+ylab("Cantera"),
@@ -539,8 +512,6 @@ ggplot(data = pro_DSn14) + geom_mosaic(aes(x=product(Posició.al.camp,clus2_2), 
 grid.arrange(ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus2_2), y=numinj,fill=factor(clus2_2)))+xlab("Clúster")+ylab("Número de Lesions")+theme(legend.position="none"),
              ggplot(data = pro_DSn14) + geom_mosaic(aes(x=product(Lesió.,clus2_2), fill=Lesió.))+xlab("Clúster")+ylab("Lesió")+theme(legend.position="none"),ncol=2,nrow=1)
 
-
-
 cl1_2_1 <- subset(pro_DSn14,clus2_2==1)
 cl1_2_1 <- cl1_2_1$numinj
 cl1_2_2 <- subset(pro_DSn14,clus2_2==2)
@@ -548,7 +519,6 @@ cl1_2_2 <- cl1_2_2$numinj
 
 nrow(subset(pro_DSn14,clus2_2==1))
 nrow(subset(pro_DSn14,clus2_2==1))/90
-
 nrow(subset(pro_DSn14,clus2_2==2))
 nrow(subset(pro_DSn14,clus2_2==2))/90
 
@@ -561,14 +531,12 @@ ddply(pro_DSn14,"clus2_2",summarise,Mean=mean(bmi),SD=sd(bmi))
 ddply(pro_DSn14,"clus2_2",summarise,Mean=mean(numinj),SD=sd(numinj))
 table(pro_DSn14$Lesió., pro_DSn14$clus2_2)
 prop.table(table(pro_DSn14$Lesió., pro_DSn14$clus2_2),2)
-
 kruskal.test(pro_DSn14$Lesió.~pro_DSn14$clus2_2)
 levene.test(pro_DSn14$numinj,pro_DSn14$clus2_2)
 wilcox.test(pro_DSn14$numinj~pro_DSn14$clus2_2)
-
 cohensD(cl1_2_1,cl1_2_2)
 
-'kampro2_3 graph'
+'CLUSTERING 1 - 3 GROUPS'
 grid.arrange(ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus2_3), y=Edat.Final.Temporada,fill=factor(clus2_3)))+xlab("Clúster")+ylab("Edat")+theme(legend.position="none"),
              ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus2_3), y=bmi,fill=factor(clus2_3)))+xlab("Clúster")+ylab("BMI")+theme(legend.position="none"),
              ggplot(data = pro_DSn14) + geom_mosaic(aes(x=product(jugador_cantera,clus2_3), fill=jugador_cantera))+xlab("Clúster")+ylab("Cantera"),
@@ -615,44 +583,8 @@ cohensD(cl1_3_1,cl1_3_3)
 cohensD(cl1_3_2,cl1_3_3)
 
 
-'kampro2_4 graph'
-grid.arrange(ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus2_4), y=Edat.Final.Temporada,fill=factor(clus2_4)))+xlab("Clúster")+ylab("Edat")+theme(legend.position="none"),
-             ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus2_4), y=bmi,fill=factor(clus2_4)))+xlab("Clúster")+ylab("BMI")+theme(legend.position="none"),
-             ggplot(data = pro_DSn14) + geom_mosaic(aes(x=product(jugador_cantera,clus2_4), fill=jugador_cantera))+xlab("Clúster")+ylab("Cantera"),
-             ggplot(data = pro_DSn14) + geom_mosaic(aes(x=product(Posició.al.camp,clus2_4), fill=Posició.al.camp))+xlab("Clúster")+ylab("Posició"),ncol=2,nrow=2)
+'CLUSTERING 2 - Pes, Alçada, Grup d'edat i Posició'
 
-grid.arrange(ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus2_4), y=numinj,fill=factor(clus2_4)))+xlab("Clúster")+ylab("Número de Lesions")+theme(legend.position="none"),
-             ggplot(data = pro_DSn14) + geom_mosaic(aes(x=product(Lesió.,clus2_4), fill=Lesió.))+xlab("Clúster")+ylab("Lesió")+theme(legend.position="none"),ncol=2,nrow=1)
-
-
-
-kruskal.test(pro_DSn14$Lesió.~pro_DSn14$clus2_4)
-levene.test(pro_DSn14$numinj, pro_DSn14$clus2_4)
-kruskal.test(pro_DSn14$numinj~pro_DSn14$clus2_4)
-
-cl1_4_1 <- subset(pro_DSn14,clus2_4==1)
-cl1_4_1 <- cl1_4_1$numinj
-cl1_4_2 <- subset(pro_DSn14,clus2_4==2)
-cl1_4_2 <- cl1_4_2$numinj
-cl1_4_3 <- subset(pro_DSn14,clus2_4==3)
-cl1_4_3 <- cl1_4_3$numinj
-cl1_4_4 <- subset(pro_DSn14,clus2_4==4)
-cl1_4_4 <- cl1_4_4$numinj
-
-mean(cl1_4_1)
-mean(cl1_4_2)
-mean(cl1_4_3)
-mean(cl1_4_4)
-
-cohensD(cl1_4_1,cl1_4_2)
-cohensD(cl1_4_1,cl1_4_3)
-cohensD(cl1_4_1,cl1_4_4)
-cohensD(cl1_4_2,cl1_4_3)
-cohensD(cl1_4_2,cl1_4_4)
-cohensD(cl1_4_3,cl1_4_4)
-
-
-'CLUSTERING 2 - BMI- no Cantera'
 conpro3 <- subset(pro_DSn14, select=c("Talla","Pes"))
 conpro3 <- data.frame(scale(conpro3))
 catpro3 <- subset(pro_DSn14, select=c("Posició.al.camp","ageG"))
@@ -665,8 +597,6 @@ psPlot3 <- psPlot3 + geom_hline(yintercept = 0.8, lty = 2)
 psPlot3 + scale_x_continuous(breaks = numberOfClusters) + ylim(0, 1.1)
 kamPro3_2 <- kamila(conpro3, catpro3, numClust = 2, numInit = 10)
 pro_DSn14$clus3_2 <- as.factor(kamPro3_2$finalMemb)
-
-'kampro3_2 graph'
 
 grid.arrange(ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus3_2), y=Talla,fill=factor(clus3_2)))+xlab("Clúster")+ylab("Alçada")+theme(legend.position="none"),
              ggplot(data = pro_DSn14) + geom_boxplot(aes(x=factor(clus3_2), y=Pes,fill=factor(clus3_2)))+xlab("Clúster")+ylab("Pes")+theme(legend.position="none"),
